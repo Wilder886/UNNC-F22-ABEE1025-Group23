@@ -5,6 +5,26 @@ import os
 import numpy as np
 from StaticEplusEngine import run_eplus_model, convert_json_idf
 
+# Explanation1: The cases need are at the bottom as creating the two objects, you can just run this .py
+'''Explanation2: I do not use the getter and setter, because I think when you need test other case, you can not 
+ always only change one or two of the attributes to change the path and vals. 
+ And there is no need to lock certain attributes in this cw.
+ Just use copy and paste to crate a new object is faster for this cw'''
+'''And of course i can writer this like: 
+
+  self.__parameter_key = None
+ @Property
+ def parameter_key(self):
+    return self.__parameter_key
+ @parameter_key.setter(self, key):
+    self.__parameter_key = key
+    
+Param_1.key = ''
+ 
+But i think this is not better for using these methods.
+'''
+
+
 class Param:
     def __init__(self, eplus_run_path,idf_path,output_dir,
                     parameter_key, parameter_val):
@@ -82,7 +102,7 @@ class Param:
             csv_writer.writerow(['optimal_value(ZN001:WALL001:Surface Inside Face Temperature [C)'])
             csv_writer.writerow([max_value])
 
-
+# These are 2 object cases for the test need
 
 eplus_run_path = './energyplus9.5/energyplus'
 idf_path = './1ZoneUncontrolled_win_1.idf'
@@ -92,6 +112,10 @@ output_dir_1 = 'param_exp_1'
 output_dir_2 = 'param_exp_2'
 parameter_key_1 = ['WindowMaterial:SimpleGlazingSystem','SimpleWindow:DOUBLE PANE WINDOW','solar_heat_gain_coefficient']
 parameter_key_2 = ['WindowMaterial:SimpleGlazingSystem','SimpleWindow:DOUBLE PANE WINDOW','u_factor']
+
+# Due to parameter_value and parameter_key are not str
+# These are used for creating output easily without transition and freely.
+
 parameter_vals_view_1 = ['0.25 - 0.25+25*0.02']
 parameter_vals_view_2 = ['1.0 - 0.1+25*0.06']
 parameter_key_view_1 = ['WindowMaterial:SimpleGlazingSystem''SimpleWindow:DOUBLE PANE WINDOW'' solar_heat_gain_coefficient']
